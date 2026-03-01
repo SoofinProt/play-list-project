@@ -6,124 +6,106 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="Description" content="Demonstration for play-list-project">
+  <link rel="stylesheet" href="./node_modules/@haxtheweb/d-d-d/d-d-d.css">
+  <title>play-list-project - DDD Slider Demo</title>
 
   <style>
     :root, html, body {
       margin: var(--ddd-spacing-0);
       padding: var(--ddd-spacing-0);
+      background-color: var(--ddd-theme-default-limestoneLight);
+      font-family: var(--ddd-font-navigation);
     }
     #demo {
-      margin: var(--ddd-spacing-2);
+      margin: var(--ddd-spacing-8);
+    }
+    h1, h2 {
+      color: var(--ddd-theme-default-nittanyNavy);
+      font-family: var(--ddd-font-primary);
     }
     play-list-project {
-      margin: var(--ddd-spacing-2);
-      border: var(--ddd-border-md);
-      border-radius: var(--ddd-radius-lg);
-    }
-    play-list-project:hover {
-      box-shadow: var(--ddd-boxShadow-sm);
-    }
-    #example {
-      --play-list-project-font-size: var(--ddd-font-size-l);
-      background-color: var(--ddd-accent-2);
-      color: var(--ddd-primary-17);
+      margin-bottom: var(--ddd-spacing-10);
+      box-shadow: var(--ddd-boxShadow-md);
     }
   </style>
-  <title>play-list-project</title>
 </head>
 
 <body>
   <div id="demo">
-    <h1>play-list-project</h1>
-    <!-- this is going to do whatever the tag's defaults are -->
-    <h2>Default</h2>
-    <play-list-project></play-list-project>
-    <h2>Slot usage</h2>
-    <play-list-project data-accent="2" data-primary="17"><div>Sample slot content</div></play-list-project>
-    <h2>Property usage</h2>
-    <play-list-project id="example" title="Sample property title"></play-list-project>
-  </div>
-  <script type="module" src="./play-list-project.js"></script>
+    <h1>Playlist Project</h1>
 
-  <!-- Take HAX, the Web and you further down the rabbit hole -->
+    <h2>Full Slider Demo (Starting at Index 3)</h2>
+    <play-list-project index="0">
+
+      <play-list-slide top-heading="Slide 1" second-heading="Welcome">
+        <p>This is the first slide. Hello!</p>
+        <p>As you add more text, this area will become scrollable mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm.</p>
+      </play-list-slide>
+
+      <play-list-slide top-heading="the student" second-heading="who is she?">
+        <p>My name is sophia</p>
+        <p>I am in IST 256</p>
+      </play-list-slide>
+
+      <play-list-slide top-heading="the teacher" second-heading="who is he?">
+        <p>my teacher is bryan ollendyke</p>
+        <p>he teaches us code</p>
+      </play-list-slide>
+
+      <play-list-slide top-heading="Final Slide" second-heading="saying goodbyes">
+        <p>thats it</p>
+        <p>goodbye!</p>
+      </play-list-slide>
+
+    </play-list-project>
+
+    <h2>Simplified Usage</h2>
+    <play-list-project>
+      <play-list-slide top-heading="Intro" second-heading="One Slide Example">
+        <p>Even with just one slide, the component should handle the UI gracefully, showing only one active dot.</p>
+      </play-list-slide>
+    </play-list-project>
+
+  </div>
+
+  <script type="module" src="./play-list-project.js"></script>
+  <script type="module" src="./play-list-slide.js"></script>
+
   <style>
     #follow-the-white-rabbit {
-      margin: var(--ddd-spacing-4) auto var(--ddd-spacing-16)  var(--ddd-spacing-4);
-      background-color: var(--ddd-accent-4);
-      color: var(--ddd-theme-default-coalyGray);
+      margin: var(--ddd-spacing-4) auto var(--ddd-spacing-16) var(--ddd-spacing-4);
+      background-color: var(--ddd-theme-default-white);
+      border: var(--ddd-border-sm);
+      border-radius: var(--ddd-radius-sm);
     }
     #follow-the-white-rabbit[open] summary {
-      background-color: var(--ddd-accent-4) !important;
-      color: var(--ddd-theme-default-coalyGray);
+      background-color: var(--ddd-theme-default-nittanyNavy) !important;
+      color: white;
+      padding: var(--ddd-spacing-2);
     }
-    #follow-the-white-rabbit[open] .content {
-      padding: var(--ddd-spacing-0) var(--ddd-spacing-4);
-    }
-    #follow-the-white-rabbit ul,
-    #follow-the-white-rabbit li {
-      padding: var(--ddd-spacing-0);
-      margin: var(--ddd-spacing-0);
-    }
-    #follow-the-white-rabbit li {
-      font-size: var(--ddd-font-size-xs);
-      list-style: none;
-    }
-    #follow-the-white-rabbit li strong,
-    #follow-the-white-rabbit li a {
-      padding: var(--ddd-spacing-2) var(--ddd-spacing-4);
-      color: var(--ddd-theme-default-coalyGray);
-      display: block;
-      font-weight: var(--ddd-font-weight-bold);
-    }
-    #follow-the-white-rabbit li:focus-within a,
-    #follow-the-white-rabbit li:hover a {
-      background-color: var(--ddd-theme-default-coalyGray);
-      color: var(--ddd-theme-default-globalNeon);
-    }
+    .content { padding: var(--ddd-spacing-4); }
+    ul { list-style: square; padding-left: var(--ddd-spacing-5); }
+    li a { color: var(--ddd-theme-default-beaverBlue); text-decoration: none; font-weight: bold; }
+    li a:hover { text-decoration: underline; }
   </style>
-  <details id="follow-the-white-rabbit" open>
-    <summary>How to Develop</summary>
+
+  <details id="follow-the-white-rabbit">
+    <summary>How to Develop & Goals Checklist</summary>
     <div class="content">
-      <p>
-      
-      </p>
-      <p>
-        You can edit the current page by modifying <code>index.html</code><br />
-        To edit your <strong>play-list-project</strong> tag, modify <code>src/play-list-project.js</code>.
-        This file contains all the HTML, CSS and JavaScript used to render your elements above!
-      </p>
-      <p>
-        Web components are easy to follow once you get used to their pattern.
-        Below are links to help on your journey. Good luck, we need you!
-      </p>
+      <p>Ensure your <code>play-list-project.js</code> handles:</p>
       <ul>
-        <li><a href="https://haxtheweb.org/documentation/ddd" target="_blank">🧑‍🎨 Learn DDD HAX Design system</a></li>
-        <li><a href="https://lit.dev/playground/" target="_blank" rel="nofollow">🔥 Learn Lit</a></li>
-        <li><a href="https://hax.psu.edu" target="_blank">🧙 HAX The Web @ Penn State</a></li>
+        <li><strong>Focus Management:</strong> Clicking arrows or hitting "Enter" advances slides.</li>
+        <li><strong>Responsive:</strong> Works on mobile and laptop screens.</li>
+        <li><strong>DDD Design:</strong> Uses <code>--ddd-spacing</code> and <code>--ddd-theme</code> variables.</li>
+        <li><strong>Wrap-around:</strong> Left arrow on slide 1 goes to last slide.</li>
       </ul>
-      <h2>Join and Share HAX</h2>
+      <h2>Inspiration Links</h2>
       <ul>
-        <li><a href="https://github.com/haxtheweb/issues/issues" target="_blank" rel="nofollow">🔮 Ideas to HAX Harder, Better, Faster, Stronger</a></li>
-        <li><a href="https://bit.ly/hax-the-linkedin" target="_blank" rel="nofollow">👔 Share on LinkedIn</a></li>
-        <li><a href="https://bit.ly/hax-the-x" target="_blank" rel="nofollow">🧵 Tweet on X</a></li>
-        <li><a href="https://bit.ly/hax-discord" target="_blank" rel="nofollow">💬 Join Community</a></li>
-      </ul>
-      <h2>Learn the languages and tools</h2>
-      <ul>
-        <li><a href="https://w3schools.com" target="_blank" rel="nofollow">🌐 Learn HTML</a></li>
-        <li><a href="https://web.dev/learn/css/" target="_blank" rel="nofollow">🎨 Learn CSS</a></li>
-        <li><a href="http://Javascript.info" target="_blank" rel="nofollow">💻 Learn JavaScript (JS)</a></li>
-        <li><a href="https://gitimmersion.com" target="_blank" rel="nofollow">🦺 Learn Git / Github</a></li>
-        <li><a href="https://nodesource.com/blog/an-absolute-beginners-guide-to-using-npm/" target="_blank" rel="nofollow">📦 Learn NPM</a></li>
-        <li><a href="http://learnux.io" target="_blank" rel="nofollow">📐 Learn UX / UI development</a></li>
-      </ul>
-      <h2>Find purpose and inspiration</h2>
-      <ul>
-        <li><a href="https://www.youtube.com/watch?v=eC7xzavzEKY" target="_blank" rel="nofollow">🐟 This is Water - David Foster Wallace</a></li>
-        <li><a href="https://www.youtube.com/watch?v=kYfNvmF0Bqw" target="_blank" rel="nofollow">🏗️ Secrets of Life - Steve Jobs</a></li>
-        <li><strong>💡 <em>Never. Stop. Innovating.</em></strong></li>
+        <li><a href="https://www.youtube.com/watch?v=eC7xzavzEKY" target="_blank">This is Water - David Foster Wallace</a></li>
+        <li><a href="https://www.youtube.com/watch?v=kYfNvmF0Bqw" target="_blank">Secrets of Life - Steve Jobs</a></li>
       </ul>
     </div>
   </details>
+
 </body>
 </html>
