@@ -29,24 +29,24 @@ export class PlayListSlide extends DDDSuper(LitElement) {
           flex-direction: column;
           padding: var(--ddd-spacing-8);
           overflow: hidden;
+          color-scheme: light dark;
         }
         .top-heading {
-            font-family: var(--ddd-font-navigation);
-            font-size: var(--ddd-font-size-xs, 12px); 
-            font-weight: bold;
-            color: var(--ddd-theme-default-link, blue); 
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-            }
-
-            .second-heading {
-            font-family: var(--ddd-font-primary);
-            font-size: var(--ddd-font-size-xl, 28px); 
-            font-weight: 900;
-            color: var(--ddd-theme-default-nittanyNavy, #1e407c);  
-            margin: 0 0 16px 0;
-            line-height: 1.1;
+          font-family: var(--ddd-font-navigation);
+          font-size: var(--ddd-font-size-xs, 12px);
+          font-weight: var(--ddd-font-weight-bold);
+          color: var(--ddd-theme-default-link, blue);
+          text-transform: uppercase;
+          margin-bottom: var(--ddd-spacing-2);
+          letter-spacing: var(--ddd-ls-72-lg);
+        }
+        .second-heading {
+          font-family: var(--ddd-font-primary);
+          font-size: var(--ddd-font-size-xl, 28px);
+          font-weight: var(--ddd-font-size-black);
+          color: var(--ddd-theme-default-nittanyNavy, #1e407c);
+          margin: 0 0 16px 0;
+          line-height: 1.1;
         }
         .accent {
           width: 60px;
@@ -72,27 +72,26 @@ export class PlayListSlide extends DDDSuper(LitElement) {
           border-radius: var(--ddd-radius-sm);
         }
         @media (max-width: 768px) {
-          :host { padding: var(--ddd-spacing-8) var(--ddd-spacing-12); }
+          :host { padding: var(--ddd-spacing-4); }
           .second-heading { font-size: var(--ddd-font-size-l); }
+        }
+        @media (prefers-color-scheme: dark) {
+          .second-heading { color: white; }
+          .scroll-content { color: var(--ddd-theme-default-limestoneLight); }
         }
       `
     ];
   }
 
   render() {
-    const topHeading = this.getAttribute('top-heading') || this.topHeading || '';
-    const secondHeading = this.getAttribute('second-heading') || this.secondHeading || '';
-
     return html`
-        <div class="top-heading">${topHeading}</div>
-        <h2 class="second-heading">${secondHeading}</h2>
-        <div class="accent"></div>
-        <div class="scroll-content">
-            <slot></slot>
-        </div>
+      <div class="top-heading">${this.topHeading}</div>
+      <h2 class="second-heading">${this.secondHeading}</h2>
+      <div class="accent"></div>
+      <div class="scroll-content">
+        <slot></slot>
+      </div>
     `;
-    }
-    
+  }
 }
-
-customElements.define(PlayListSlide.tag, PlayListSlide);
+globalThis.customElements.define(PlayListSlide.tag, PlayListSlide);

@@ -1,6 +1,8 @@
 import { LitElement, html, css } from "lit";
 import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
-
+import "./play-list-slide.js";
+import "./play-list-dots.js";
+import "./play-list-nav.js";
 
 export class PlayListProject extends DDDSuper(LitElement) {
   static get tag() { return "play-list-project"; }
@@ -8,13 +10,12 @@ export class PlayListProject extends DDDSuper(LitElement) {
   static get properties() {
     return {
       index: { type: Number, reflect: true },
-      slides: { type: true }
+      slides: { type: Array },
     };
   }
 
   constructor() {
     super();
-    this.setAttribute('tabindex', '0');
     this.index = 0;
     this.slides = [];
     this.addEventListener('keydown', this._handleKeyDown.bind(this));
@@ -30,10 +31,11 @@ export class PlayListProject extends DDDSuper(LitElement) {
           border: var(--ddd-border-sm);
           max-width: 1000px;
           margin: 0 auto;
-          background: white;
+          background: var(--ddd-theme-default-white);
           outline: none;
           padding-bottom: var(--ddd-spacing-10);
           position: relative;
+          color-scheme: light dark;
         }
 
         :host(:focus-within) {
@@ -64,80 +66,23 @@ export class PlayListProject extends DDDSuper(LitElement) {
           flex: 1;
           overflow: hidden;
           min-width: 0;
-          align-self: stretch;  
+          align-self: stretch;
         }
 
         .slider-layout {
           display: flex;
           flex-direction: row;
-          align-items: stretch; 
+          align-items: stretch;
           width: 100%;
-        }
-
-        .nav-button {
-          flex-shrink: 0;
-          background: white;
-          border: 2px solid var(--ddd-theme-default-link);
-          color: var(--ddd-theme-default-link);
-          border-radius: var(--ddd-radius-circle);
-          width: 44px;
-          height: 44px;
-          cursor: pointer;
-          display: flex;
-          align-self: center;
-          align-items: center;
-          justify-content: center;
-          transition: 0.2s all ease;
-          margin: 0 var(--ddd-spacing-3);
-          z-index: 10;
-        }
-
-        .nav-button:hover,
-        .nav-button:focus {
-          background: var(--ddd-theme-default-link);
-          color: white;
-          outline: none;
-        }
-
-        .nav-button:focus-visible {
-          outline: 2px solid var(--ddd-theme-default-link);
-          outline-offset: 2px;
-        }
-
-        .nav-button:disabled {
-          opacity: 0.3;
-          cursor: default;
-        }
-
-        .dots-nav {
-          display: flex;
-          justify-content: center;
-          gap: var(--ddd-spacing-3);
-          padding: var(--ddd-spacing-3) 0;
-        }
-
-        .dot {
-          width: 12px;
-          height: 12px;
-          border-radius: 50%;
-          border: 2px solid transparent;
-          background: var(--ddd-theme-default-limestoneGray);
-          cursor: pointer;
-          padding: 0;
-          transition: 0.2s all ease;
-        }
-
-        .dot:hover, .dot:focus {
-          background: var(--ddd-theme-default-limestoneMax);
-        }
-
-        .dot.active {
-          background: var(--ddd-theme-default-link);
-          transform: scale(1.2);
+          position: relative;
         }
 
         @media (max-width: 600px) {
-          .nav-button { width: 32px; height: 32px; font-size: 14px; }
+          :host { border-radius: 0; }
+        }
+
+        @media (prefers-color-scheme: dark) {
+          :host { background: var(--ddd-theme-default-coalyGray); }
         }
       `
     ];
@@ -160,37 +105,45 @@ export class PlayListProject extends DDDSuper(LitElement) {
     this.index = (this.index + dir + total) % total;
   }
 
- 
-render() {
-  return html`
-    <div class="slider-layout">
-      <button class="nav-button btn-prev" @click="${() => this.changeSlide(-1)}" aria-label="Previous Slide" ?disabled="${this.slides.length <= 1}">❮</button>
+  handleNavClick(e) {
+    if (e.detail.direction === 'prev') this.changeSlide(-1);
+    else this.changeSlide(1);
+  }
 
-      <div class="slider-track-wrapper">
-        <div 
-          class="slider-window" 
-          role="region" 
-          aria-live="polite"
-          style="transform: translateX(-${this.index * 100}%);">
-          <slot @slotchange="${this.handleSlotChange}"></slot>
+  render() {
+    return html`
+      <div class="slider-layout">
+        <play-list-nav
+          direction="prev"
+          ?disabled="${this.slides.length <= 1}"
+          @play-list-nav-clicked="${this.handleNavClick}">
+        </play-list-nav>
+
+        <div class="slider-track-wrapper">
+          <div
+            class="slider-window"
+            role="region"
+            aria-live="polite"
+            style="transform: translateX(-${this.index * 100}%);">
+            <slot @slotchange="${this.handleSlotChange}"></slot>
+          </div>
         </div>
+
+        <play-list-nav
+          direction="next"
+          ?disabled="${this.slides.length <= 1}"
+          @play-list-nav-clicked="${this.handleNavClick}">
+        </play-list-nav>
       </div>
 
-      <button class="nav-button btn-next" @click="${() => this.changeSlide(1)}" aria-label="Next Slide" ?disabled="${this.slides.length <= 1}">❯</button>
-    </div>
-
-    <div class="dots-nav" role="tablist" aria-label="Slide Selection">
-      ${this.slides.map((_, i) => html`
-        <button 
-          class="dot ${i === this.index ? 'active' : ''}" 
-          @click="${() => this.index = i}"
-          role="tab"
-          aria-selected="${i === this.index}"
-          aria-label="Go to slide ${i + 1}">
-        </button>
-      `)}
-    </div>
-  `;
-}
+      <play-list-dots
+        count="${this.slides.length}"
+        index="${this.index}"
+        role="tablist"
+        aria-label="Slide Selection"
+        @play-list-index-changed="${(e) => this.index = e.detail.index}">
+      </play-list-dots>
+    `;
+  }
 }
 globalThis.customElements.define(PlayListProject.tag, PlayListProject);
